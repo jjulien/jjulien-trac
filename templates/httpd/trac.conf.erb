@@ -1,0 +1,7 @@
+Alias /trac/chrome/common <%= @webdir %>/htdocs/common
+Alias /trac/chrome/site <%= @webdir %>/htdocs/site
+
+<Directory "<%= @webdir %>/htdocs">
+  Order allow,deny
+  Allow from all
+</Directory>

@@ -1,0 +1,8 @@
+import os
+
+os.environ['PYTHON_EGG_CACHE'] = '<%= trac_env %>/eggs'
+
+import trac.web.main
+def application(environ, start_response):
+  environ['trac.env_path'] = '<%= trac_env %>'
+  return trac.web.main.dispatch_request(environ, start_response)
