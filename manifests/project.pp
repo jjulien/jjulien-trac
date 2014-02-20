@@ -21,6 +21,7 @@ define trac::project($db_user='trac_user',
                      $db_pass='testing',
                      $db_host='localhost',
                      $db_port='5432',
+                     $httpd_auth_content=undef,
                      $auth_name='trac',
                      $auth_file=undef,
                      $userhash=undef,
@@ -41,7 +42,7 @@ define trac::project($db_user='trac_user',
   $trac_config = "${trac::project_path}/${name}/conf/trac.ini"
   $trac_augeas_context = "/files${trac_config}"
   $wsgi_script = "${trac::wsgidir}/${name}.wsgi"  
-  
+
   if ( ! $auth_file ) { 
     $real_auth_file = "${trac_env}/passwd"
   } else { $real_auth_file = $auth_file }
@@ -58,6 +59,12 @@ define trac::project($db_user='trac_user',
        content => template('trac/passwd.erb'),
        require => Exec["init_trac_${name}"],
     } 
+  }
+
+  if ( ! $httpd_auth_content ) {
+    $real_httpd_auth_content = template('trac/defaults/httpd_auth_content.erb')
+  } else {
+    $real_httpd_auth_content = $httpd_auth_content
   }
 
   trac::adminloop{$admins:

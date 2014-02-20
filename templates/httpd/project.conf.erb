@@ -1,9 +1,6 @@
 WSGIScriptAlias /trac/<%= @name %> <%= @wsgi_script %>
 
 <Location /trac/<%= @name %>>
-  AuthType Basic
-  AuthName "<%= @auth_name %>"
-  AuthUserFile <%= @real_auth_file %>
-  Require valid-user
+<%= @real_httpd_auth_content %>
 </Location>
 
