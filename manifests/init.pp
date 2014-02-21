@@ -2,7 +2,9 @@ class trac($project_path=$trac::params::project_path,
            $trac_package=$trac::params::package,
            $webdir=$trac::params::webdir,
            $wsgidir=$trac::params::wsgidir,
-           $web_config=$trac::params::web_config) inherits trac::params {
+           $web_config=$trac::params::web_config,
+           $webuser=$trac::params::webuser,
+           $webgroup=$trac::params::webgroup) inherits trac::params {
 
   include '::apache'
   package {$trac_package:
@@ -37,14 +39,14 @@ class trac($project_path=$trac::params::project_path,
   }  
   file {[$webdir, $wsgidir]:
     ensure => directory,
-    owner   => apache,
-    group  => apache,
+    owner   => $webuser,
+    group  => $webgroup,
     mode   => 0755,
   }
   file {$web_config:
     ensure => file,
-    owner  => apache,
-    group  => apache,
+    owner  => $webuser,
+    group  => $webgroup,
     mode   => 0644,
     content => template('trac/httpd/trac.conf.erb'),
   }

@@ -30,11 +30,12 @@ define trac::project($db_user='trac_user',
                      $logo_image=undef,
                      $logo_height=undef,
                      $logo_width=undef,
-                     $logo_alttext=undef,
-                     $webuser='apache',
-                     $webgroup='apache') {
+                     $logo_alttext=undef) {
 
   require('trac')
+
+  $webuser = $trac::webuser
+  $webgroup = $trac::webgroup
 
   $db_name = "trac_${name}"
   $db_url = "postgres://${db_user}:${db_pass}@${db_host}:${db_port}/${db_name}?schema=trac"
