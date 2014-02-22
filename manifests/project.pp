@@ -39,6 +39,8 @@ define trac::project($db_user='trac_user',
 
   $db_name = "trac_${name}"
   $db_url = "postgres://${db_user}:${db_pass}@${db_host}:${db_port}/${db_name}?schema=trac"
+  $trac_db_define = "trac_db_${name}"
+
   $trac_env = "${trac::project_path}/$name"
   $trac_config = "${trac::project_path}/${name}/conf/trac.ini"
   $trac_augeas_context = "/files${trac_config}"
@@ -72,22 +74,15 @@ define trac::project($db_user='trac_user',
        trac_env   => $trac_env,
        require    => Exec["init_trac_${name}"],
   }
-
-  include 'postgresql::server'
-  
-  postgresql::server::db {$db_name: 
-     user     => $db_user,
-     password => postgresql_password($db_user, $db_pass),
-  }
-  if ( ! defined(Postgresql::Server::Role[$db_user])) {
-    postgresql::server::role {$db_user:
-      password_hash => postgresql_password($db_user, $db_pass)
-    }
+  trac::db {$trac_db_define:
+    db_user => $db_user,
+    db_pass => $db_pass,
+    db_name => $db_name
   }
   exec {"init_trac_${name}":
      command => "/usr/bin/trac-admin ${trac_env} initenv '${project_name}' '$db_url'",
      unless => "/usr/bin/test -d ${trac_env}",
-     require => Postgresql::Server::Db[$db_name],
+     require => Trac::Db[$trac_db_define],
   }
 
   exec {"create_trac_webdocs_${name}":
