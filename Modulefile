@@ -8,6 +8,6 @@ description 'Module for managing Trac instances'
 project_page 'https://github.com/jjulien/jjulien-trac'
 
 ## Add dependencies, if any:
-dependency 'puppetlabs/stdlib', '>= 3.0.0'
-dependency 'puppetlabs/apache', '>= 0.9.0'
-dependency 'puppetlabs/postgresql', '>= 3.0.0'
+dependency 'puppetlabs/stdlib', '>= 3.2.0 <4.0.0'
+dependency 'puppetlabs/apache', '>= 0.9.0 <1.0.0'
+dependency 'puppetlabs/postgresql', '>= 3.0.0 <4.0.0'
