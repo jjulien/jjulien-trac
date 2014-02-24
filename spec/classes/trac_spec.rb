@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe 'trac' do
-   let(:pre_condition) {
-     "  class apache {} 
-        define apache::mod() {} "
-   }
    it { should contain_class('apache') }
    puts :webuser
    context "with trac_package => trac" do
