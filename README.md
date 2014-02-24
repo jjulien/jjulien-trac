@@ -51,49 +51,49 @@ mytracmodule/httpd/auth.erb:
 ```
 
 ### Parameters
-####`db_user` **Default:** testing
+#####`db_user` **Default:** testing
 
 The database user who will manage the trac instance.  This is used to buid the connection string for the trac.ini file.
 
-####`db_host` **Default:** localhost
+#####`db_host` **Default:** localhost
 
 The host the database is running on.  This is used to buid the connection string for the trac.ini file.
 
-####`db_port` **Default:** 5432
+#####`db_port` **Default:** 5432
 
 The host the database is running on.  This is used to buid the connection string for the trac.ini file.
 
-####`httpd_auth_content` **Default:** Configures for basic auth
+#####`httpd_auth_content` **Default:** Configures for basic auth
 
-####`auth_name` **Default:** trac
+#####`auth_name` **Default:** trac
 
 The name displayed in the BasicAuth authentication popup
 
-####`userhash` **Default:** undef
+#####`userhash` **Default:** undef
 
 Hash of `{user => password}` where password is a hashed version that will be placed into the htpasswd file
 
-####`admins` **Deafult:** []
+#####`admins` **Deafult:** []
 
 A list of usernames to give the TRAC_ADMIN permission to
 
-####`trac_title` **Default:** undef
+#####`trac_title` **Default:** undef
 
 The title of your project which will be displayed at the top of your trac page
 
-####`logo_image` **Default:** undef
+#####`logo_image` **Default:** undef
 
 A Puppet file URL that points to the image you want displayed on your trac page.  Ex. `puppet:///module/mytracmodule/images/logo.png`
 
-####`logo_height` **Default:** undef
+#####`logo_height` **Default:** undef
 
 The height of your logo
 
-####`logo_width` **Default:** undef
+#####`logo_width` **Default:** undef
 
 The width of your logo
 
-####`logo_alttext` **Default:** undef
+#####`logo_alttext` **Default:** undef
 
 Alt tag that will be associated with your logo
 
