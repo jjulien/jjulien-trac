@@ -64,10 +64,17 @@ define trac::project($db_user='trac_user',
     } 
   }
 
-  if ( ! $httpd_auth_content ) {
-    $real_httpd_auth_content = template('trac/defaults/httpd_auth_content.erb')
-  } else {
+  # Allow users to override what is put in the <Location> for authenticatino
+  # If they do not provide an override, basic auth will be assumed.  If they don't provide
+  # a passwd file or at least 1 user in userhash, then we will assume no authentication.
+  # Trac still requires apache to handle auth, so they will have had to setup this up, but
+  # they may want to manage it at a more global level.
+  if ( $httpd_auth_content ) {
     $real_httpd_auth_content = $httpd_auth_content
+  } elsif ( ! $auth_file and ! $userhash ) { 
+    $real_httpd_auth_content = ""
+  } else {
+    $real_httpd_auth_content = template('trac/defaults/httpd_auth_content.erb')
   }
 
   trac::adminloop{$admins:
