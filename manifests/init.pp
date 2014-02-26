@@ -6,7 +6,12 @@ class trac($project_path=$trac::params::project_path,
            $webuser=$trac::params::webuser,
            $webgroup=$trac::params::webgroup) inherits trac::params {
 
-  include '::apache'
+  if ( ! defined(Class['::apache']) ) {
+    class {'::apache':
+       purge_configs => false,
+    }
+  }
+
   package {$trac_package:
     ensure => installed,
   }
