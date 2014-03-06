@@ -4,12 +4,11 @@ class trac($project_path=$trac::params::project_path,
            $wsgidir=$trac::params::wsgidir,
            $web_config=$trac::params::web_config,
            $webuser=$trac::params::webuser,
-           $webgroup=$trac::params::webgroup) inherits trac::params {
+           $webgroup=$trac::params::webgroup,
+           $manage_apache=false) inherits trac::params {
 
-  if ( ! defined(Class['::apache']) ) {
-    class {'::apache':
-       purge_configs => false,
-    }
+  if ( $manage_apache ) {
+     include 'apache'
   }
 
   package {$trac_package:

@@ -32,6 +32,11 @@ define trac::project($db_user='trac_user',
                      $logo_width=undef,
                      $logo_alttext=undef) {
 
+  if ( ! defined(Class['trac']) ) { 
+    class {'trac':
+      manage_apache => false,
+    }
+  }
   require('trac')
 
   $webuser = $trac::webuser
