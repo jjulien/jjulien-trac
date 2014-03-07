@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'trac::project' do
   let(:title) { 'sampleproject' }
+  let(:pre_condition) { "include 'apache'" }
   trac_env = '/var/opt/trac_instances/sampleproject'
   trac_db_define = 'trac_db_sampleproject'
 

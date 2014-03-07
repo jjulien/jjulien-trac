@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe 'trac' do
-   it { should contain_class('apache') }
-   puts :webuser
+   let (:pre_condition) { "include 'apache'" }
    context "with trac_package => trac" do
      let(:params) { {:trac_package => 'trac' } }
      it { should contain_package('trac') }
