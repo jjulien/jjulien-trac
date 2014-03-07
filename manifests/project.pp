@@ -1,18 +1,13 @@
-# Due to limitations in the Puppet DSL this adminloop will
-# only work if no duplicate admin lists are used for more than one
-# trac::project instance.  So for example, the following would cause a conflict:
-#
-# trac::project {'project1': admins => ['user1', 'user2']}
-# trac::project {'project2': admins => ['user1', 'user2']}
-#
-# if any of the admins were different between these projects the conflict would
-# not exist.  The future parser in 3.2 will resolve this with the each method 
-# being added to arrays
-#
-
 define trac::adminloop($trac_env) {
-  trac::admin {"${name}_${trac_env}":
-    user     => $name,
+  # To keep uniqueness and allow for the same user to be an admin
+  # of more than one trac instance, we have to add information about trac_env
+  # to the name of trac::adminloop and then strip it off to get just the
+  # username portion.  It's really hacky, yes, but without true iteration in
+  # Puppet this is necessary
+  $splitname = split($name, $trac_env)
+  $admin_user = $splitname[1]
+  trac::admin {"${admin_user}_${trac_env}":
+    user     => $admin_user,
     trac_env => $trac_env,
   }
 }
@@ -82,10 +77,23 @@ define trac::project($db_user='trac_user',
     $real_httpd_auth_content = template('trac/defaults/httpd_auth_content.erb')
   }
 
-  trac::adminloop{$admins:
+  # We have to preifx the admins before sending them to the loop.  This is
+  # to allow the same user to be an admin of more than one trac project.
+  #
+  # Without this for example, if the user john belonged to 2 trac
+  # projects, then 2 trac::adminloop resoruces would be defined wiht
+  # the name 'john'.  This is because passing an array into trac::adminloop
+  # is essentially creating N number of trac::adminloop resoruces where N
+  # is the number of elements in the array passed.
+  #
+  # This will be fixed when the future parser become standard
+  #
+  $prefixed_admins = prefix($admins, $trac_env)
+  trac::adminloop{$prefixed_admins:
        trac_env   => $trac_env,
        require    => Exec["init_trac_${name}"],
   }
+
   trac::db {$trac_db_define:
     db_user => $db_user,
     db_pass => $db_pass,

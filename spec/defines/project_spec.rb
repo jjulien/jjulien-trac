@@ -17,7 +17,7 @@ describe 'trac::project' do
 
   context "admins => ['testadmin']" do
     let(:params) { { :admins => ['testadmin'] } }
-    it { should contain_trac__adminloop('testadmin') }
+    it { should contain_trac__admin('testadmin_' + trac_env) }
   end
 
 end
