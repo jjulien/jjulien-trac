@@ -16,6 +16,7 @@ define trac::project($db_user='trac_user',
                      $db_pass='testing',
                      $db_host='localhost',
                      $db_port='5432',
+                     $db_schema='trac',
                      $httpd_auth_content=undef,
                      $auth_name='trac',
                      $auth_file=undef,
@@ -38,7 +39,7 @@ define trac::project($db_user='trac_user',
   $webgroup = $trac::webgroup
 
   $db_name = "trac_${name}"
-  $db_url = "postgres://${db_user}:${db_pass}@${db_host}:${db_port}/${db_name}?schema=trac"
+  $db_url = "postgres://${db_user}:${db_pass}@${db_host}:${db_port}/${db_name}?schema=${db_schema}"
   $trac_db_define = "trac_db_${name}"
 
   $trac_env = "${trac::project_path}/$name"
