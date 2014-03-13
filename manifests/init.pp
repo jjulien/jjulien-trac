@@ -5,7 +5,7 @@ class trac($project_path=$trac::params::project_path,
            $web_config=$trac::params::web_config,
            $webuser=$trac::params::webuser,
            $webgroup=$trac::params::webgroup,
-           $manage_apache=false) inherits trac::params {
+           $manage_apache=true) inherits trac::params {
 
   if ( $manage_apache ) {
      include 'apache'

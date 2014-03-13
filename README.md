@@ -63,6 +63,10 @@ The host the database is running on.  This is used to buid the connection string
 
 The host the database is running on.  This is used to buid the connection string for the trac.ini file.
 
+#####`db_schema` **Default:** trac
+
+The database schema name to use
+
 #####`httpd_auth_content` **Default:** Configures for basic auth
 
 #####`auth_name` **Default:** trac
