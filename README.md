@@ -8,7 +8,17 @@ Puppet module for managing trac instances
 ### Creating a trac instance
 
 To accept all defaults use this code.  **Note:** This will setup trac with no authentication and no admins.  You will need to setup your own apache auth at a more global level if you use these defaults.  You will also probably want to specify at least one admin using `trac::admin {'admin': }` in your manifest as well.
+
+**WARNING:** The defualt also comes with the defaults of puppetlabs-apache which will purge your apache conf.d files
 ```puppet
+  trac::project {'sampleproject': }
+```
+
+Setup where you manage the apache config
+```puppet
+  class {'trac':
+    manage_apache => false,
+  }
   trac::project {'sampleproject': }
 ```
 
